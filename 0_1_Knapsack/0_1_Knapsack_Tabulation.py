@@ -19,6 +19,10 @@ In this case, there are 4 ways to store items in the knapsack within the maximum
 
 Time Complexity: O(n * capacity)
 Space complexity: O(n * capacity)
+
+Note:
+- Can optimize space complexity to be O(capacity) by taking a 1D array to store intermediate values, as anyway the same values are required
+- Was also thinking about how inner loop can start from the weight of the current item, as until that point the solution would be same as not considering that item, i.e. Existing values in array (Although that doesn't improve worst case time complexity)
 """
 
 from inputs import tests
