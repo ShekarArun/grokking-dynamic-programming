@@ -26,40 +26,36 @@ from time import time  # To calculate runtime
 
 
 def find_knapsack(capacity, weights, values, n):
-    dp = [[-1 for i in range(capacity + 1)] for j in range(n + 1)]
-    return find_knapsack_value(capacity, weights, values, n, dp)
+    dp = [[0 for i in range(capacity + 1)] for j in range(n + 1)]
 
+    for i in range(len(dp)):
+        for j in range(len(dp[0])):
+            # Current i value indicates the number of elements taken into consideration to solve the problem
+            # Current j value indicates the capacity considered for this problem subset
 
-def find_knapsack_value(capacity, weights, values, n, dp):
-    # print("capacity", capacity, "n", n)
-    # Base condition to exit from recursive call
-    if n == 0 or capacity == 0:
-        # print("dp", dp)
-        return 0
-
-    # Check if the given subproblem already has a solution
-    if dp[n][capacity] != -1:
-        # print("dp", dp)
-        return dp[n][capacity]
-
-    # Check if current weight is lesser than remaining capacity
-    if weights[n - 1] <= capacity:
-        # This means it is a possible option to be considered for the final solution
-        # So take the max between options of either considering this weight or not considering it
-        dp[n][capacity] = max(
-            (
-                values[n - 1]
-                + find_knapsack_value(
-                    capacity - weights[n - 1], weights, values, n - 1, dp
+            # So of course, either considering 0 items or 0 capacity does not allow us to pick up any item, so set those values to 0
+            if i == 0 or j == 0:
+                dp[i][j] == 0
+            # Next, see whether the current weight being considered can be added to the knapsack
+            # If it can, that means we have two options -> Either take it or don't
+            # So take the max between the two possibilities
+            elif (
+                weights[i - 1] <= j
+            ):  # Note, i follows the number of elements taken into consideration and j follows the capacity
+                dp[i][j] = max(
+                    (
+                        values[i - 1] + dp[i - 1][j - weights[i - 1]]
+                    ),  # Here, we select the current element and add the previously calculated max for remaining capacity (n remains same, hence passing i - 1)
+                    dp[i - 1][
+                        j
+                    ],  # If we don't select it, find the max value for same n elements, but with no reduction in capacity
                 )
-            ),
-            find_knapsack_value(capacity, weights, values, n - 1, dp),
-        )
-    else:
-        # The weight exceeds remaining capacity so cannot be considered
-        dp[n][capacity] = find_knapsack_value(capacity, weights, values, n - 1, dp)
-    # print("dp", dp)
-    return dp[n][capacity]
+            else:
+                # The weight exceeds the remaining capacity, so this item cannot be considered -> Same logic as not considering this item
+                dp[i][j] = dp[i - 1][j]
+
+    # Finally, the highest value can be obtained by checking the solution for input capacity and input number of items, which will be the bottom right element in the matrix
+    return dp[-1][-1]
 
 
 def main():
