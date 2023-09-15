@@ -41,12 +41,7 @@ test5 = {
     ],
     "total": 42,
 }
+test6 = {"arr": [1, 2, 1], "total": 0}
 
 
-tests = [
-    test1,
-    test2,
-    test3,
-    test4,
-    test5,
-]
+tests = [test1, test2, test3, test4, test5, test6]
