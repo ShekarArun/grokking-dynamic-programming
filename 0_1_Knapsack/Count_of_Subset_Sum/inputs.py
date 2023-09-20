@@ -79,5 +79,5 @@ test10 = {
     ],
     "total": 2593,
 }
-
-tests = [test1, test2, test3, test4, test5, test6, test7, test8, test9, test10]
+test11 = {"arr": [0], "total": 0}
+tests = [test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11]
