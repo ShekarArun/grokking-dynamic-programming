@@ -31,6 +31,11 @@ test6 = {
     "stations": [[310, 160], [380, 620], [700, 89], [850, 190], [990, 360]],
 }
 test7 = {
+    "target": 3,
+    "start_fuel": 5,
+    "stations": [],
+}
+test8 = {
     "target": 1000000,
     "start_fuel": 414538,
     "stations": [
@@ -137,4 +142,4 @@ test7 = {
     ],
 }
 
-tests = [test1, test2, test3, test4, test5, test6, test7]
+tests = [test1, test2, test3, test4, test5, test6, test7, test8]
