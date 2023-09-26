@@ -1,5 +1,5 @@
 """ 
-This program is the naive solution for the Minimum Number of Refuel Stops problem
+This program is the Top-Down (Memoization) solution for the Minimum Number of Refuel Stops problem
 
 Problem Statement:
 Given:
@@ -16,8 +16,8 @@ start fuel = 2
 stations = [[1, 2], [2, 8], [4, 10], [6, 7], [7, 2], [8, 1]]
 The answer is 2 stops ([2, 8] and [4, 10])
 
-Time Complexity: O(n * 2^n) because for each weight we have a subproblem where we either choose or do not choose it
-Space complexity: O(n)
+Time Complexity: O(n^2)
+Space complexity: O(n^2)
 """
 
 # from math import inf
@@ -33,55 +33,65 @@ def min_refuel_stops(target, start_fuel, stations):
     n = len(stations)
     i = 0
 
+    # Initialize DP Array to store the maximum distance from index i with j stops
+    dp = [[-1 for _ in range(n + 1)] for _ in range(n + 1)]
+
     # Store the maximum distance that can be travelled for each number of stops in an array
     max_dist = [-1] * (n + 1)
 
     # Now, store the maximum distance that can be covered for each number of stops
     for i in range(n + 1):
-        max_dist[i] = min_refuel_stops_helper(n, i, start_fuel, stations)
+        max_dist[i] = min_refuel_stops_helper(n, i, start_fuel, stations, dp)
 
     # Now, we know the maximum distance we can cover with each number of stops
     # So, proceed to find the lowest index which can cover the target distance (which implies minimum number of stops)
     for i in range(n + 1):
-        if max_dist[i] >= target:
+        if dp[n][i] >= target:
             return i
 
     # If we haven't reached target in any of the number of stops, return -1 as the target cannot be reached
     return -1
 
 
-def min_refuel_stops_helper(index, used, cur_fuel, stations):
+def min_refuel_stops_helper(index, used, cur_fuel, stations, dp):
     """
     Logic:
     This helper function identifies the maximum distance that can be covered from starting station of 'index', while utilizing 'used' number of stops more
     """
     # If there are no remaining stops that can be made, return the remaining fuel as the maximum distance that can be covered
     if used == 0:
-        return cur_fuel
+        dp[index][used] = cur_fuel
+        return dp[index][used]
 
     # If there are more stops than number of stations remaining, then we cannot reach the target distance
     if used > index:
-        return -1
+        # -2 so that we don't recalculate actual -1 cases (Differentiate between untouched cell and calculated cell but no solution)
+        dp[index][used] = -2
+        return dp[index][used]
+
+    # If the solution has already been found, return that
+    if dp[index][used] != -1:
+        return dp[index][used]
 
     # Now, we can either take or skip the current station
-    skip_stop = min_refuel_stops_helper(index - 1, used, cur_fuel, stations)
-    take_stop = min_refuel_stops_helper(index - 1, used - 1, cur_fuel, stations)
+    skip_stop = min_refuel_stops_helper(index - 1, used, cur_fuel, stations, dp)
+    take_stop = min_refuel_stops_helper(index - 1, used - 1, cur_fuel, stations, dp)
 
     # Return the higher between the two distances
     # BUT, if the remaining fuel does not allow us to reach the next station, return -1
-    result = max(
+    dp[index][used] = max(
         skip_stop,
-        -1
+        -2
         if take_stop
         < stations[index - 1][
             0
-        ]  # -1 because we can't reach the next stop with the remaining fuel
+        ]  # -2 because we can't reach the next stop with the remaining fuel
         else take_stop
         + stations[index - 1][
             1
         ],  # Add last stop's fuel to the total distance that can be reached, assuming we can travel until this
     )
-    return result
+    return dp[index][used]
 
 
 def main():
