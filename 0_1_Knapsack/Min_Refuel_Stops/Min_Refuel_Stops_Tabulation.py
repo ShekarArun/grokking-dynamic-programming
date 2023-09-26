@@ -18,6 +18,9 @@ The answer is 2 stops ([2, 8] and [4, 10])
 
 Time Complexity: O(n^2)
 Space complexity: O(n^2)
+
+Note:
+- Can further minimize space complexity by only taking 1 row, since we only use values from the last 1 row
 """
 
 # from math import inf
