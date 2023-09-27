@@ -8,8 +8,8 @@ eg:
 Consider arr = [1, 2, 3]
 The array can be divided into two subsets of [1, 2] and [3], both of which add up to 3, so the result is TRUE.
 
-Time Complexity: O(n^2), because for each element we have an option to either take it or leave it
-Space Complexity: O(n), as the recursive call goes up to a maximum depth of n
+Time Complexity: O(n * target), because for each element we have an option to either take it or leave it
+Space Complexity: O(n * target), as we use a dictionary to store the array index and the target sum
 """
 
 from inputs import tests
