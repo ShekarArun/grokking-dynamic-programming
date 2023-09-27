@@ -10,7 +10,9 @@ test7 = {"arr": [1, 3, 4, 8]}
 test8 = {"arr": [1, 2, 3, 2, 3, 5]}
 test9 = {"arr": [1, 5, 3, 2, 3, 19, 3]}
 test10 = {"arr": [1, 2, 3, 5, 3, 2, 1]}
-test11 = {
+test11 = {"arr": [1]}
+test12 = {"arr": [2]}
+test13 = {
     "arr": [
         100,
         100,
@@ -212,7 +214,21 @@ test11 = {
         100,
         99,
         97,
-    ]
+    ],
 }
 
-tests = [test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11]
+tests = [
+    test1,
+    test2,
+    test3,
+    test4,
+    test5,
+    test6,
+    test7,
+    test8,
+    test9,
+    test10,
+    test11,
+    test12,
+    test13,
+]
