@@ -13,8 +13,8 @@ matrix = [
 ]
 The expected response in this case is 7
 
-Time Complexity: O(2^n) because for each weight we have a subproblem where we either choose or do not choose it
-Space complexity: O(n)
+Time Complexity: O(m * n * 3^(m*n)) because we iterate over each element and for each element we call three recursive functions to find square size
+Space complexity: O(1)
 """
 
 from inputs import tests
