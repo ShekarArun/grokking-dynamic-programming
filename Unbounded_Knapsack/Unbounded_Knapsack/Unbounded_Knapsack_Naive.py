@@ -22,25 +22,27 @@ from inputs import tests
 from time import time  # To calculate runtime
 
 
-def find_knapsack(capacity, weights, values, n):
+def find_knapsack_rec(capacity, weights, values, n):
     # Base condition to exit from recursive call
-    if n == 0 or capacity == 0:
-        return 0
+    if n == 0:
+        # Fill up all the remaining capacity with the single object that is left
+        return (capacity // weights[0]) * values[0]
 
-    # Check if current weight is lesser than remaining capacity
-    if weights[n - 1] <= capacity:
-        # This means it is a possible option to be considered for the final solution
-        # So take the max between options of either considering this weight or not considering it
-        return max(
-            (
-                values[n - 1]
-                + find_knapsack(capacity - weights[n - 1], weights, values, n - 1)
-            ),
-            find_knapsack(capacity, weights, values, n - 1),
-        )
+    # Check if the current item's weight is less than the remaining capacity
+    if weights[n] <= capacity:
+        # Item's weight is lesser than the remaining capacity, so we can choose to either take or not take this item
+        taken = values[n] + find_knapsack_rec(capacity - weights[n], weights, values, n)
+        not_taken = find_knapsack_rec(capacity, weights, values, n - 1)
+
+        # Maximize the result between the two possibilities
+        return max(taken, not_taken)
     else:
-        # The weight exceeds remaining capacity so cannot be considered
-        return find_knapsack(capacity, weights, values, n - 1)
+        # The item's weight is greater than the remaining capacity, so skip it
+        return find_knapsack_rec(capacity, weights, values, n - 1)
+
+
+def find_knapsack(capacity, weights, values, n):
+    return find_knapsack_rec(capacity, weights, values, n - 1)
 
 
 def main():
