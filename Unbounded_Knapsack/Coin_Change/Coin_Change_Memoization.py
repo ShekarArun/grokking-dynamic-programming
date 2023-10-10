@@ -1,5 +1,5 @@
 """ 
-This program is the naive solution for the Coin Change problem
+This program is the Top-Down (Memoization) solution for the Coin Change problem
 
 Problem Statement:
 Given a 'total' and a list of integers 'coins'. The integers in the list 'coins' represent the coin denominations, and 'total' is the total amount of money.
@@ -12,48 +12,48 @@ total = 5
 coins = [1, 2, 3]
 The maximum number of coins is 2: 2 + 3 = 5.
 
-Time Complexity: O(n^m) where n is the number of coins and m is the total amount
-Space complexity: O(m)
+Time Complexity: O(n*m) where n is the number of coins and m is the total amount
+Space complexity: O(n*m)
 """
 
 from inputs import tests
 from time import time  # To calculate runtime
+from math import inf
 
 
-def coin_change_rec(coins: list[int], total: int, n: int) -> int:
+def coin_change_rec(coins: list[int], total: int, dp: list[int]) -> int:
     # Base condition to exit from recursive call
     if total == 0:
         return 0
 
-    if n == 0:
+    if total < 0:
         return -1
 
-    # Check if the current item's weight is less than the remaining capacity
-    if coins[n - 1] <= total:
-        # Item's weight is lesser than the remaining capacity, so we can choose to either take or not take this item
-        taken = coin_change_rec(coins, total - coins[n - 1], n)
-        not_taken = coin_change_rec(coins, total, n - 1)
+    if dp[total - 1] != inf:
+        return dp[total - 1]
 
-        if taken != -1:
-            taken += 1
+    minimum = inf
 
-        if taken == -1:
-            return not_taken
-        elif not_taken == -1:
-            return taken
+    for coin in coins:
+        res = coin_change_rec(coins, total - coin, dp)
+        # Only add valid solutions, do not consider if the denominations don't add up to total
+        if res >= 0 and res < minimum:
+            minimum = 1 + res
 
-        # Minimize the result between the two possibilities
-        return min(taken, not_taken)
+    if minimum != inf:
+        dp[total - 1] = minimum
+        return dp[total - 1]
     else:
-        # The coin's denomination is greater than the remaining total, so skip it
-        return coin_change_rec(coins, total, n - 1)
+        return -1
 
 
 def coin_change(coins: list[int], total: int) -> int:
     if total == 0:
         return 0
 
-    return coin_change_rec(coins, total, len(coins))
+    dp = [inf] * total
+
+    return coin_change_rec(coins, total, dp)
 
 
 def main():
