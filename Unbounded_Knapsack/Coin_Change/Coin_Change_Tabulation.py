@@ -1,5 +1,5 @@
 """ 
-This program is the Top-Down (Memoization) solution for the Coin Change problem
+This program is the Bottom-Up (Tabulation) solution for the Coin Change problem
 
 Problem Statement:
 Given a 'total' and a list of integers 'coins'. The integers in the list 'coins' represent the coin denominations, and 'total' is the total amount of money.
@@ -21,39 +21,22 @@ from time import time  # To calculate runtime
 from math import inf
 
 
-def coin_change_rec(coins: list[int], total: int, dp: list[int]) -> int:
-    # Base condition to exit from recursive call
-    if total == 0:
-        return 0
-
-    if total < 0:
-        return -1
-
-    if dp[total - 1] != inf:
-        return dp[total - 1]
-
-    minimum = inf
-
-    for coin in coins:
-        res = coin_change_rec(coins, total - coin, dp)
-        # Only add valid solutions, do not consider if the denominations don't add up to total
-        if res >= 0 and res < minimum:
-            minimum = 1 + res
-
-    if minimum != inf:
-        dp[total - 1] = minimum
-        return dp[total - 1]
-    else:
-        return -1
-
-
 def coin_change(coins: list[int], total: int) -> int:
     if total == 0:
         return 0
 
-    dp = [inf] * total
+    dp = [(total + 1)] * (total + 1)
+    dp[0] = 0
 
-    return coin_change_rec(coins, total, dp)
+    for i in range(1, total + 1):
+        for coin in coins:
+            if (i - coin) >= 0:
+                dp[i] = min(dp[i], (1 + dp[i - coin]))
+
+    if dp[total] != (total + 1):
+        return dp[total]
+    else:
+        return -1
 
 
 def main():
