@@ -15,8 +15,8 @@ The following combinations are possible:
 2. 10 + 10 + 10
 So the expected response is 2.
 
-Time Complexity: O(n^m) where n is the number of coins and m is the total amount
-Space complexity: O(m)
+Time Complexity: O(m * n) where n is the number of coins and m is the total amount
+Space complexity: O(m * n)
 """
 
 from inputs import tests
