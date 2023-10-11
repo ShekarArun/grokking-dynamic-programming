@@ -1,4 +1,4 @@
-# These are the test inputs for the Coin Change problem
+# These are the test inputs for the Coin Change II problem
 
 test1 = {"coins": [1, 2, 5], "total": 7}
 test2 = {"coins": [1, 5, 10, 25], "total": 10}
