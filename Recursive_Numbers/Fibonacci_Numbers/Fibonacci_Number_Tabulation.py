@@ -1,5 +1,5 @@
 """ 
-This program is the Top-Down (Memoization) solution for the Fibonacci Numbers problem
+This program is the Bottom-Up (Tabulation) solution for the Fibonacci Numbers problem
 
 Problem Statement:
 Find the 'n'th Fibonacci number.
@@ -11,7 +11,7 @@ n = 4
 The sequence built using the definition will be 0, 1, 1, 2, 3
 So n = 4 => The Fibonacci number is 2
 
-Time Complexity: O(n) as we have two fixed calculations per node
+Time Complexity: O(n) as loop through all numbers up to n
 Space complexity: O(n) as we initialize a dp of size n
 """
 
@@ -19,20 +19,17 @@ from inputs import tests
 from time import time  # To calculate runtime
 
 
-def get_fibonacci_rec(n: int, dp: list[int]) -> int:
+def get_fibonacci(n: int) -> int:
     if n < 2:
         return n
 
-    if dp[n] != -1:
-        return dp[n]
+    dp = [0] * (n + 1)
+    dp[1] = 1
 
-    dp[n] = get_fibonacci_rec((n - 2), dp) + get_fibonacci_rec((n - 1), dp)
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
     return dp[n]
-
-
-def get_fibonacci(n: int) -> int:
-    dp = [-1] * (n + 1)
-    return get_fibonacci_rec(n, dp)
 
 
 def main():
