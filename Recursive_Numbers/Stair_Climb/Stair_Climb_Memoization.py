@@ -1,5 +1,5 @@
 """ 
-This program is the Top-Down (Memoization) solution for the Staircase Climb problem
+This program is the naive solution for the Staircase Climb problem
 
 Problem Statement:
 A child is climbing a staircase and can climb 1, 2 or 3 steps at a time.
@@ -13,7 +13,7 @@ The different ways are:
 3. 2 + 1
 4. 3
 
-Time Complexity: O(n) because each number has a solution found once
+Time Complexity: O(3^n) because there are 3 possible options at each step
 Space complexity: O(n) as the maximum depth of the recursive chain is n
 """
 
@@ -21,25 +21,13 @@ from inputs import tests
 from time import time  # To calculate runtime
 
 
-def stair_climb_rec(n: int, dp: list[int]):
+def stair_climb(n: int) -> int:
     if n < 0:
         return 0
     elif n == 0:
         return 1
-    elif dp[n] > -1:
-        return dp[n]
-
-    dp[n] = (
-        stair_climb_rec((n - 1), dp)
-        + stair_climb_rec((n - 2), dp)
-        + stair_climb_rec((n - 3), dp)
-    )
-    return dp[n]
-
-
-def stair_climb(n: int) -> int:
-    dp = [-1] * n
-    return stair_climb_rec(n, dp)
+    else:
+        return stair_climb(n - 1) + stair_climb(n - 2) + stair_climb(n - 3)
 
 
 def main():
