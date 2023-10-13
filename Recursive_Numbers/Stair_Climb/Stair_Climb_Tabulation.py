@@ -1,0 +1,55 @@
+""" 
+This program is the Bottom-Up (Tabulation) solution for the Staircase Climb problem
+
+Problem Statement:
+A child is climbing a staircase and can climb 1, 2 or 3 steps at a time.
+Find the number of ways in which the staircase can be climbed.
+
+eg:
+n = 3
+The different ways are:
+1. 1 + 1 + 1
+2. 1 + 2
+3. 2 + 1
+4. 3
+
+Time Complexity: O(n) because each number has a solution found once
+Space complexity: O(n) as the maximum depth of the recursive chain is n
+"""
+
+from inputs import tests
+from time import time  # To calculate runtime
+
+
+def stair_climb(n: int) -> int:
+    if n < 0:
+        return 0
+    if n == 0:
+        return 1
+
+    dp = [0] * (n + 1)
+
+    dp[0] = 0
+    dp[1] = 1
+    dp[2] = 2
+
+    for i in range(3, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3]
+
+    return dp[n]
+
+
+def main():
+    for test in tests:
+        # start_time = datetime.now()
+        start_time = time()
+        n = test["n"]
+        print("=" * 30)
+        print("n: ", n)
+        print("Number of ways: ", stair_climb(n))
+        print("Total runtime: ", ((time() - start_time) * 10**3), "ms")
+        print("=" * 30)
+
+
+if __name__ == "__main__":
+    main()
