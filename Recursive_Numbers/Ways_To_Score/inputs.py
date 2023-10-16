@@ -1,4 +1,4 @@
-# These are the test inputs for the Number Factors problem
+# These are the test inputs for the Ways To Score problem
 
 test1 = {"n": 3, "numbers": [1, 2, 4]}
 test2 = {"n": 4, "numbers": [1, 2, 4]}
