@@ -16,7 +16,7 @@ The sequence built using the definition will be 1, 1, 2, 5, 14, 42, 132, ...
 So n = 4 => The Catalan number is 14
 
 Time Complexity: O(n^2) as each Catalan number is calculated by precomputed results of the previous Catalan Numbers
-Space complexity: O(n) as the maximum depth of the recursive chain is n
+Space complexity: O(n) as the DP array is of size n
 """
 
 from inputs import tests
